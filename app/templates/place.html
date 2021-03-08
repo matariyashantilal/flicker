@@ -20,16 +20,21 @@
         </div>
         <button type="submit" class="btn btn-primary">Search</button>
     </form>
+    
+    {% if preset_location %}
     <label for="places" class="mt-2">Choose a Place:</label>
+
     <select class="form-control" name="places" id="id_places">
+
         {% for location  in preset_location %}
         <option data-latitude={{ location.latitude }} data-longtitude={{  location.longtitude }}
             value="{{ location.place }}" class="places_1">{{ location.place }}</option>
         {% endfor %}
     </select>
+    {% endif %}
     <br>
     <br>
-    
+
     <div id="photos_list">
         {% if photos_list %}
         <h1>Search results for {{ location_name }} ({{ latitude }}, {{ longtitude }})</h1>
