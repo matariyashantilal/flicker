@@ -25,8 +25,9 @@
     <label for="places" class="mt-2">Choose a Place:</label>
 
     <select class="form-control" name="places" id="id_places">
-
+        <option value="" selected>Choose a Place</option>
         {% for location  in preset_location %}
+    
         <option data-latitude={{ location.latitude }} data-longtitude={{  location.longtitude }}
             value="{{ location.place }}" class="places_1">{{ location.place }}</option>
         {% endfor %}

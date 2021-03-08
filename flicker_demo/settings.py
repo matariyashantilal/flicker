@@ -80,25 +80,25 @@ WSGI_APPLICATION = 'flicker_demo.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-SECRET_KEY = config('SECRET_KEY', default=SECRET_KEY)
-DEBUG = config('DEBUG', default=False, cast=bool)
-DATABASES = {
-    'default': dj_database_url.config(
-        default=config('DATABASE_URL')
-    )
-}
-
-
+# SECRET_KEY = config('SECRET_KEY', default=SECRET_KEY)
+# DEBUG = config('DEBUG', default=False, cast=bool)
 # DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'flicker',
-#         'USER': 'postgres',
-#         'PASSWORD': '1234',
-#         'HOST': 'localhost',
-#         'PORT': 5432,
-#     }
+#     'default': dj_database_url.config(
+#         default=config('DATABASE_URL')
+#     )
 # }
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'flicker',
+        'USER': 'postgres',
+        'PASSWORD': '1234',
+        'HOST': 'localhost',
+        'PORT': 5432,
+    }
+}
 
 
 # Password validation
