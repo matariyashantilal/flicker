@@ -2,6 +2,7 @@ import flickrapi
 import reverse_geocoder as geocoder
 from django.conf import settings
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
@@ -33,7 +34,6 @@ def photo_search(request):
     if request.user.is_authenticated:
         preset_location = AddPresetLocation.objects.all()
         if request.GET.get('latitude') and request.GET.get('longtitude'):
-            print(request.GET.get('latitude'))
             latitude = request.GET.get('latitude')
             longtitude = request.GET.get('longtitude')
             page_num = request.GET.get('page', 1)
@@ -76,21 +76,25 @@ def photo_search(request):
 def add_to_favourite_list(request):
     """Add photos in a search result to a favourites list.
     """
-    if request.method == 'POST':
-        UserFavouriteList.objects.create(
-            title=request.POST.get('title'),
-            image_url=request.POST.get('image_url'),
-            latitude=request.POST.get('latitude'),
-            longtitude=request.POST.get('longtitude'),
-            thumb_url=request.POST.get('thumb_url'),
-            user=request.user)
+    if request.user.is_authenticated:
 
-    return JsonResponse({
-        'success': 'true'
-    })
+        if request.method == 'POST':
+            UserFavouriteList.objects.create(
+                title=request.POST.get('title'),
+                image_url=request.POST.get('image_url'),
+                latitude=request.POST.get('latitude'),
+                longtitude=request.POST.get('longtitude'),
+                thumb_url=request.POST.get('thumb_url'),
+                user=request.user)
+
+        return JsonResponse({
+            'success': 'true'
+        })
+    else:
+        return render(request, 'registration/login.html')
 
 
-class FavouriteListView(generic.ListView):
+class FavouriteListView(LoginRequiredMixin, generic.ListView):
     """All favourites photos display.
     """
     model = UserFavouriteList

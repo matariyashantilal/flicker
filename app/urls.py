@@ -5,7 +5,7 @@ from django.views.generic.base import RedirectView
 
 urlpatterns = [
     path('', include('django.contrib.auth.urls')),
-    path('', RedirectView.as_view(pattern_name='places')),
+    path('', RedirectView.as_view(pattern_name='login')),
     path('signup', views.SignUp.as_view(), name='signup'),
     path('places', views.photo_search, name="places"),
     path('favourite-list', views.FavouriteListView.as_view(), name="favourite-list"),
