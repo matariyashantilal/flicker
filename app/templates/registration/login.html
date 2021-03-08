@@ -1,0 +1,57 @@
+{% extends 'signup.html' %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+
+{% block body %}
+
+<body>
+    <div class="login-form">
+        <h2>Log in</h2>
+        {% for error in form.non_field_errors %}
+        <p class="text-danger validation-msg">{{ error }}</p>
+        {% endfor %}
+        {% if next %}
+
+        {% if user.is_authenticated %}
+        <p class="text-error validation-msg">{% blocktrans %}Your account doesn't have access to this page. To
+            proceed, please login with
+            an
+            account that has access.{% endblocktrans %}</p>
+        {% else %}
+        <p class="text-error validation-msg">{% blocktrans %}Please login to see this page.{% endblocktrans %}</p>
+        {% endif %}
+
+        {% elif user.is_authenticated %}
+        <p class="validation-msg text-warning">{% blocktrans with user=request.user %}You are currently logged in
+            with
+            <b>{{ user }}</b>.{% endblocktrans %}
+        </p>
+        {% endif %}
+        <form class="custom-form" action="{% url 'login' %}" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Email</label><br>
+                <input type="email" name="username" {% if form.username.value %}value="{{ form.username.value }}"
+                    {% endif %} class="form-control" required />
+            </div>
+
+            <div class="form-group mb-4">
+                <label>Password</label>
+                <div class="custom-input-field">
+                    <input type="password" name="password" required class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Log in</button>
+            </div>
+
+        </form>
+        <div class="new-join">
+            <p>New to Flicker? <a href="{% url 'signup' %}">Join Now</a></p>
+        </div>
+    </div>
+</body>
+{% endblock %}
+
+</html>

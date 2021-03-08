@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% block title %}places{% endblock %}
+{% block body %}
+<div class="container">
+    <h1>Search Place</h1>
+
+    <form method="get" action="{% url 'places' %}">
+        {% csrf_token %}
+
+        <p class="text-danger">{{ errors }}</p>
+        <div class="form-group">
+            <label>Latitude</label>
+            <input type="number" step="any" class="form-control" id="latitude" value="{{ request.GET.latitude }}"
+                name="latitude" placeholder="Latitude" required>
+        </div>
+        <div class="form-group">
+            <label>Longtitude</label>
+            <input type="number" step="any" class="form-control" id="longtitude" value="{{ request.GET.longtitude }}"
+                name="longtitude" placeholder="Longtitude" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+    <label for="places" class="mt-2">Choose a Place:</label>
+    <select class="form-control" name="places" id="id_places">
+        {% for location  in preset_location %}
+        <option data-latitude={{ location.latitude }} data-longtitude={{  location.longtitude }}
+            value="{{ location.place }}" class="places_1">{{ location.place }}</option>
+        {% endfor %}
+    </select>
+    <br>
+    <br>
+    
+    <div id="photos_list">
+        {% if photos_list %}
+        <h1>Search results for {{ location_name }} ({{ latitude }}, {{ longtitude }})</h1>
+
+        <div class="container">
+            <div class="row">
+                {% for photo in photos_list %}
+                <div class="col-md-2 mb-5">
+                    <div class="thumbnail">
+                        <img src="{{ photo.url_q }}" alt="Not avilable">
+                        <div class="caption">
+                            <button type="button" data-image-url="{{ photo.url_m }}" data-thumb-url="{{ photo.url_q }}"
+                                data-title="{{ photo.title }}" data-latitude="{{ latitude }}"
+                                data-longtitude="{{ longtitude }}" class="btn btn-primary add-favourites">Add to
+                                favourite
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <a href="{{next_url}}" class="btn btn-primary loadphotos">Load
+                photos</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    $(document).on("click", ".add-favourites", function () {
+        let _this = $(this);
+        var values = {
+            'image_url': _this.data('imageUrl'),
+            'thumb_url': _this.data('thumbUrl'),
+            'title': _this.data('title'),
+            'latitude': _this.data('latitude'),
+            'longtitude': _this.data('longtitude'),
+        };
+
+        $.ajax({
+            url: '{% url "add-to-favourite" %}',
+            type: "POST",
+            data: values,
+            beforeSend: function (xhr, settings) {
+                // Only send the token to relative URLs i.e. locally.
+                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            },
+            success: function (res) {
+                _this.text('Added!')
+                _this.prop('disabled', true).addClass('btn-secondary')
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });
+    });
+
+    $(document).on("change", "select#id_places", function () {
+        let _this = $(this);
+        var selected = _this.find('option:selected');
+        var values = {
+            'latitude': selected.data('latitude'),
+            'longtitude': selected.data('longtitude'),
+        };
+        $.ajax({
+            url: '{% url "places" %}',
+            type: "GET",
+            data: values,
+            beforeSend: function (xhr, settings) {
+
+                // Only send the token to relative URLs i.e. locally.
+                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            },
+            success: function (res) {
+                $('#photos_list').replaceWith($('#photos_list', res));
+            }
+        });
+    });
+    $(document).on("click", ".loadphotos", function () {
+        let _this = $(this);
+        $.ajax({
+            url: _this.attr('href'),
+            type: "GET",
+            beforeSend: function (xhr, settings) {
+
+                // Only send the token to relative URLs i.e. locally.
+                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            },
+        });
+    });
+</script>
+{% endblock %}

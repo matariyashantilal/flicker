@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% block head %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>SignUp</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <style>
+        .login-form {
+            width: 340px;
+            margin: 50px auto;
+            font-size: 15px;
+        }
+
+        .login-form form {
+            margin-bottom: 15px;
+            background: #f7f7f7;
+            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+        }
+
+        .login-form h2 {
+            margin: 0 0 15px;
+        }
+
+        .form-control,
+        .btn {
+            min-height: 38px;
+            border-radius: 2px;
+        }
+
+        .btn {
+            font-size: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+{% endblock %}
+
+
+{% block body %}
+<body>
+    <div class="login-form">
+        <h2>Sign up</h2>
+        <form class="custom-form" method="POST" action="{% url 'signup' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Email</label><br>
+                <input type="email" {% if form.email.value %}value="{{ form.email.value }}" {% endif %} name="email"
+                    class="form-control 
+                    {% if form.email.errors or required %} form-field-error{% endif %}" />
+                {% for error in form.email.errors %}
+                <p class="text-danger">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <div class="custom-input-field">
+                    <input type="password" name="password1"
+                        {% if form.password1.value %}value="{{ form.password1.value }}" {% endif %}
+                        class="form-control{% if form.password1.errors or required %} form-field-error{% endif %}">
+                </div>
+                {% if form.password1.errors %}
+                {% for error in form.password1.errors %}
+                <p class="text-danger">{{ error }}</p>
+                {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label>Confirm Password</label>
+                <div class="custom-input-field">
+                    <input type="password" name="password2"
+                        {% if form.password2.value %}value="{{ form.password2.value }}" {% endif %}
+                        class="form-control {% if form.password2.errors or required %} form-field-error{% endif %}">
+                </div>
+                {% if form.password2.errors %}
+                {% for error in form.password2.errors %}
+                <p class="text-danger">{{ error }}</p>
+                {% endfor %}
+
+                {% endif %}
+            </div>
+            <br>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Sign up</button>
+            </div>
+
+        </form>
+         <div class="new-join">
+            <p>Already a user? <a href="{% url 'login' %}">Log in</a></p>
+        </div>
+    </div>
+</body>
+{% endblock %}
+
+</html>

@@ -1,0 +1,20 @@
+# Python cache files.
+__pycache__/
+
+# Django static files
+staticfiles/
+
+# Environment Files
+.env
+
+# VS code files
+.vscode
+nginx
+
+# PyCharm
+.idea/
+
+.DS_Store
+
+#Database
+db.sqlite3
