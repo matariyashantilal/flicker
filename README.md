@@ -1,14 +1,6 @@
 # Picture Search By Geolocation
 
-
-## Go to live link
-
-- Live app: https://flicker-project.herokuapp.com/
-
-- Admin app: https://flicker-project.herokuapp.com/admin/
-  username : admin@gmail.com
-  password : admin
-
+We have used `Django` framework of Python and `Bootstrap` as a CSS framework.
 
 ## Challenge Description 
 Write a responsive application that search for pictures using Flickr API, based on user input and present the results.
@@ -24,62 +16,46 @@ The user should be able to:
 - View thumbnails of the photos in the favourite list
 - Your frontend should not connect to Flickr API directly.
 
-# SetUp Project
+## Go to live link
 
-Just make sure python3 install on your machine.
+- Live app: https://flicker-project.herokuapp.com/
+- Admin app: https://flicker-project.herokuapp.com/admin/
+    - username : admin@gmail.com
+    - password : admin
 
-## Install virtual enviornment 
+## SetUp Project
+
+
+### Create a Virtual Environment
 
 ```sh 
 python3 -m pip install --user virtualenv
-```
-
-## Creating a virtual environment
-
-```sh 
 python3 -m venv env
-```
-
-## Activating a virtual environment
-```sh 
 source env/bin/activate
 ```
 
-## run the following command for project setup locally.
+### Run the project
+
+You can check the link http://127.0.0.1:8000.
 
 ```sh 
-python manange.py runserver
+python manange.py runserver 0.0.0.0
 ```
 
-
-## Create a superuser for admin site.
+### Create a superuser for admin site
 
 ```sh 
 python manange.py createsuperuser
 ```
 
-## Urls for admin site locally
+### Admin site
 
 http://127.0.0.1:8000/admin
 
-- After you can login on admin site click on Preset Location you able to add pre location. 
+- After you login in the admin site, Click on `Preset Location` and then you can able to add new location. 
 
-- Search result stored in Location module.
+- Search result stored in `Location`.
 
-- User favourite photo stored in UserFavouriteList module.
+- User favourite photo stored in `UserFavouriteList`.
 
-- Preset location stored in AddPresetLocation.
-
-
-## Create Superuser on heroku
-
-```sh 
-python manage.py createsuperuser
-```
-## Urls for admin site live version
-
-https://flicker-project.herokuapp.com/admin
-
-
-
-
+- Preset location stored in `AddPresetLocation`.
