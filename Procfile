@@ -1,1 +1,1 @@
-web: gunicorn testing.wsgi --log-file -
+web: gunicorn flicker_demo.wsgi --log-file -

@@ -1,5 +1,15 @@
 # Picture Search By Geolocation
 
+
+## Go to live link
+
+- Live app: https://flicker-project.herokuapp.com/
+
+- Admin app: https://flicker-project.herokuapp.com/admin/
+  username : admin@gmail.com
+  password : admin
+
+
 ## Challenge Description 
 Write a responsive application that search for pictures using Flickr API, based on user input and present the results.
 
@@ -16,7 +26,7 @@ The user should be able to:
 
 # SetUp Project
 
-Make sure python3 install on your machine.
+Just make sure python3 install on your machine.
 
 ## Install virtual enviornment 
 
@@ -35,8 +45,7 @@ python3 -m venv env
 source env/bin/activate
 ```
 
-
-## run the following command for project setup.
+## run the following command for project setup locally.
 
 ```sh 
 python manange.py runserver
@@ -47,10 +56,10 @@ python manange.py runserver
 
 ```sh 
 python manange.py createsuperuser
-python manange.py runserver
 ```
 
-## Urls for admin site
+## Urls for admin site locally
+
 http://127.0.0.1:8000/admin
 
 - After you can login on admin site click on Preset Location you able to add pre location. 
@@ -60,3 +69,17 @@ http://127.0.0.1:8000/admin
 - User favourite photo stored in UserFavouriteList module.
 
 - Preset location stored in AddPresetLocation.
+
+
+## Create Superuser on heroku
+
+```sh 
+python manage.py createsuperuser
+```
+## Urls for admin site live version
+
+https://flicker-project.herokuapp.com/admin
+
+
+
+
